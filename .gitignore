@@ -1,0 +1,7 @@
+# intermediate results
+results/
+# compiled python files
+__pycache__/
+*.pyc
+# saved models
+*.pth
