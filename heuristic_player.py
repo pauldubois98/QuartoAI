@@ -3,6 +3,41 @@ from game import checkAlign
 from random_player import randomPlace, randomGive
 
 
+def tension(board):
+    """compute the tension of the board"""
+    # columns
+    columns_sums = board.sum(dim=1)
+    columns_full_pieces = columns_sums[0, :] == 3
+    columns_same_shapes = torch.logical_or(
+        columns_sums[1:, :] == 0, columns_sums[1:, :] == 3).any(dim=1)
+    columns_tension = torch.logical_and(columns_full_pieces, columns_same_shapes)
+    # lines
+    lines_sums = board.sum(dim=2)
+    lines_full_pieces = lines_sums[0, :] == 3
+    lines_same_shapes = torch.logical_or(
+        lines_sums[1:, :] == 0, lines_sums[1:, :] == 3).any(dim=1)
+    lines_tension = torch.logical_and(lines_full_pieces, lines_same_shapes)
+    # diagonal
+    diagonal_sums = board.diagonal(0, 1, 2).sum(dim=1)
+    diagonal_full_pieces = diagonal_sums[0] == 3
+    diagonal_same_shapes = torch.logical_or(
+        diagonal_sums[1:] == 0, diagonal_sums[1:] == 3).any()
+    diagonal_tension = torch.logical_and(diagonal_full_pieces, diagonal_same_shapes)
+    # diagonal bis
+    flipped_board = torch.flip(board, (1,))
+    diagonal_bis_sums = flipped_board.diagonal(0, 1, 2).sum(dim=1)
+    diagonal_bis_full_pieces = diagonal_bis_sums[0] == 3
+    diagonal_bis_same_shapes = torch.logical_or(
+        diagonal_sums[1:] == 0, diagonal_sums[1:] == 3).any()
+    diagonal_bis_tension = torch.logical_and(diagonal_bis_full_pieces, diagonal_bis_same_shapes)
+    # tension
+    total_tension = lines_tension.sum().item() \
+    + columns_tension.sum().item() \
+        + diagonal_tension.sum().item() \
+            + diagonal_bis_tension.sum().item()
+    return total_tension
+
+
 def checkAlmostAlign(board):
     """check if there are 3 pieces of the same shape aligned"""
     # columns
