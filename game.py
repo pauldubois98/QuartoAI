@@ -72,7 +72,7 @@ def checkAlign(board):
     return False
 
 
-def full_game(playerA, playerB):
+def full_game(playerA, playerB, display=False):
     global board, pieces
     board, pieces = init_game()
     piece_idx = playerB.give(board, pieces)
@@ -97,6 +97,25 @@ def full_game(playerA, playerB):
             if turn == 15:
                 return "Draw"
             piece_idx = playerB.give(board, pieces)
-        # print('   turn', turn)
-        # plotBoard(board)
-        # plotPieces(pieces)
+        if display:
+            print('   turn', turn)
+            plotBoard(board)
+            plotPieces(pieces)
+
+
+
+def multiple_games(playerA, playerB, n_games):
+    A_wins = 0
+    B_wins = 0
+    draws = 0
+    for i in range(n_games):
+        result = full_game(playerA, playerB, False)
+        if result == "A":
+            A_wins += 1
+        elif result == "B":
+            B_wins += 1
+        else:
+            draws += 1
+    return A_wins, B_wins, draws
+
+
