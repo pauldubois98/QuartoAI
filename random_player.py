@@ -4,13 +4,13 @@ import torch
 def randomPlace(board):
     available_places = torch.where(board[0, :, :] == 0)
     i = torch.randint(available_places[0].shape[0], (1,))
-    return available_places[0][i], available_places[1][i]
+    return available_places[0][i].item(), available_places[1][i].item()
 
 
 def randomGive(pieces):
     available_pieces = torch.where(pieces[0, :] == 1)
     i = torch.randint(available_pieces[0].shape[0], (1,))
-    return available_pieces[0][i]
+    return available_pieces[0][i].item()
 
 
 class RandomPlayer:
