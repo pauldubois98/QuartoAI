@@ -4,6 +4,7 @@ import matplotlib.pyplot as plt
 
 
 def plotPieces(pieces):
+    """plot the pieces using hexadecimal numbers (textual representation)"""
     for i in range(pieces.shape[1]):
         if (pieces[0, i] == 0):
             print(f'*{i:x}*', end=' ')
@@ -13,6 +14,7 @@ def plotPieces(pieces):
 
 
 def plotBoard(board):
+    """plot the board using hexadecimal numbers (textual representation)"""
     im = (board[1, :, :]+(2*board[2, :, :])+(4*board[3, :, :]) +
           (8*board[4, :, :]))
     for i in range(4):
@@ -26,6 +28,7 @@ def plotBoard(board):
 
 
 def init_game():
+    """initialize the board and the pieces"""
     board = torch.zeros((5, 4, 4), dtype=torch.int8)
     pieces = torch.zeros((5, 16), dtype=torch.int8)
     pieces[0, :] = 1
@@ -39,6 +42,7 @@ def init_game():
 
 
 def checkAlign(board):
+    """check if there are 3 pieces of the same shape aligned"""
     # columns
     columns_sums = board.sum(dim=1)
     columns_full_pieces = columns_sums[0, :] == 4
@@ -73,9 +77,9 @@ def checkAlign(board):
 
 
 def full_game(playerA, playerB, display=False):
-    global board, pieces
+    """play a full game between two players"""
     board, pieces = init_game()
-    piece_idx = 0 # exploiting symmetry
+    piece_idx = 0  # exploiting symmetry
     for turn in range(16):
         if turn % 2 == 0:
             piece = pieces[1:, piece_idx]
@@ -103,8 +107,8 @@ def full_game(playerA, playerB, display=False):
             plotPieces(pieces)
 
 
-
 def multiple_games(playerA, playerB, n_games):
+    """play multiple games between two players"""
     A_wins = 0
     B_wins = 0
     draws = 0
@@ -117,5 +121,3 @@ def multiple_games(playerA, playerB, n_games):
         else:
             draws += 1
     return A_wins, B_wins, draws
-
-

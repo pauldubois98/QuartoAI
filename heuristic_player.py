@@ -68,6 +68,7 @@ def heuristicGive(board, pieces):
 
 
 class HeuristicPlayer:
+    """player that tries to win when placing & avoid losing when giving"""
     def give(self, board, pieces):
         pos = heuristicGive(board, pieces)
         if pos is None:
