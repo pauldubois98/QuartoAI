@@ -75,7 +75,7 @@ def checkAlign(board):
 def full_game(playerA, playerB, display=False):
     global board, pieces
     board, pieces = init_game()
-    piece_idx = playerB.give(board, pieces)
+    piece_idx = 0 # exploiting symmetry
     for turn in range(16):
         if turn % 2 == 0:
             piece = pieces[1:, piece_idx]
