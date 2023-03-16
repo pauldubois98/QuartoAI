@@ -17,6 +17,10 @@ def randomGive(pieces):
 
 class RandomPlayer:
     """player that plays randomly"""
+
+    def __str__(self) -> str:
+        return "Random Player"
+
     def give(self, board, pieces):
         return randomGive(pieces)
 

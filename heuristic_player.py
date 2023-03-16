@@ -144,6 +144,9 @@ def minimizeTensionPlace(board, piece):
 class HeuristicPlayer:
     """player that tries to win when placing & avoid losing when giving"""
 
+    def __str__(self) -> str:
+        return "Heuristic Player"
+    
     def give(self, board, pieces):
         pos = heuristicGive(board, pieces)
         if pos is not None:
@@ -160,6 +163,9 @@ class HeuristicPlayer:
 class AggressiveHeuristicPlayer:
     """player that tries to win when placing & avoid losing when giving, playing aggressively"""
 
+    def __str__(self) -> str:
+        return "Aggressive Heuristic Player"
+    
     def give(self, board, pieces):
         pos = heuristicGive(board, pieces)
         if pos is not None:
@@ -179,6 +185,9 @@ class AggressiveHeuristicPlayer:
 class PacificHeuristicPlayer:
     """player that tries to win when placing & avoid losing when giving, playing pacifically"""
 
+    def __str__(self) -> str:
+        return "Pacific Heuristic Player"
+    
     def give(self, board, pieces):
         pos = heuristicGive(board, pieces)
         if pos is not None:
