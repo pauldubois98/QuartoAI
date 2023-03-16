@@ -1,4 +1,5 @@
 import torch
+import random
 from game import checkAlign
 from random_player import randomPlace, randomGive
 
@@ -110,6 +111,7 @@ def maximizeTensionPlace(board, piece):
     available_places = torch.where(board[0, :, :] == 0)
     max_tension = 0
     max_place = None
+    max_nb = 0
     for indice in range(available_places[0].shape[0]):
         test_place_i = available_places[0][indice]
         test_place_j = available_places[1][indice]
@@ -120,6 +122,11 @@ def maximizeTensionPlace(board, piece):
         if tension > max_tension:
             max_tension = tension
             max_place = (test_place_i, test_place_j)
+            max_nb = 1
+        elif tension == max_tension:
+            if random.randint(0, max_nb) == 0:
+                max_place = (test_place_i, test_place_j)
+            max_nb += 1
     return max_place
 
 
@@ -128,6 +135,7 @@ def minimizeTensionPlace(board, piece):
     available_places = torch.where(board[0, :, :] == 0)
     min_tension = 100
     min_place = None
+    min_nb = 0
     for indice in range(available_places[0].shape[0]):
         test_place_i = available_places[0][indice]
         test_place_j = available_places[1][indice]
@@ -138,6 +146,11 @@ def minimizeTensionPlace(board, piece):
         if tension < min_tension:
             min_tension = tension
             min_place = (test_place_i, test_place_j)
+            min_nb = 1
+        elif tension == min_tension:
+            if random.randint(0, min_nb) == 0:
+                min_place = (test_place_i, test_place_j)
+            min_nb += 1
     return min_place
 
 
@@ -202,3 +215,5 @@ class PacificHeuristicPlayer:
         if pos is not None:
             return pos
         return randomPlace(board)
+
+
