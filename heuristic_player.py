@@ -231,3 +231,19 @@ class AggressivePlayer:
         if pos is not None:
             return pos
         return randomPlace(board)
+
+
+class PacificPlayer:
+    """player that plays pacifically"""
+
+    def __str__(self) -> str:
+        return "Pacific Player"
+
+    def give(self, board, pieces):
+        return randomGive(pieces)
+
+    def place(self, board, pieces, piece):
+        pos = minimizeTensionPlace(board, piece)
+        if pos is not None:
+            return pos
+        return randomPlace(board)
