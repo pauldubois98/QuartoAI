@@ -133,4 +133,11 @@ def tournament(players, n_games):
         for j in range(n_players):
             wins[i, j], losts[i, j], draws[i, j] \
                 = multiple_games(players[i], players[j], n_games)
-    return wins, losts, draws
+    tournament_results = {
+        "wins": wins,
+        "losts": losts,
+        "draws": draws,
+        "players": players,
+        "n_games": n_games,
+    }
+    return tournament_results
