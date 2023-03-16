@@ -139,3 +139,19 @@ def minimizeTensionPlace(board, piece):
             min_tension = tension
             min_place = (test_place_i, test_place_j)
     return min_place
+
+
+class HeuristicPlayer:
+    """player that tries to win when placing & avoid losing when giving"""
+
+    def give(self, board, pieces):
+        pos = heuristicGive(board, pieces)
+        if pos is not None:
+            return pos
+        return randomGive(pieces)
+
+    def place(self, board, pieces, piece):
+        pos = heuristicPlace(board, piece)
+        if pos is not None:
+            return pos
+        return randomPlace(board)
