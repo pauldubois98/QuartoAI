@@ -121,3 +121,16 @@ def multiple_games(playerA, playerB, n_games):
         else:
             draws += 1
     return A_wins, B_wins, draws
+
+
+def tournament(players, n_games):
+    """play a tournament between all players"""
+    n_players = len(players)
+    wins = np.zeros((n_players, n_players), dtype=int)
+    losts = np.zeros((n_players, n_players), dtype=int)
+    draws = np.zeros((n_players, n_players), dtype=int)
+    for i in range(n_players):
+        for j in range(n_players):
+            wins[i, j], losts[i, j], draws[i, j] \
+                = multiple_games(players[i], players[j], n_games)
+    return wins, losts, draws
