@@ -159,7 +159,7 @@ class HeuristicPlayer:
 
     def __str__(self) -> str:
         return "Heuristic Player"
-    
+
     def give(self, board, pieces):
         pos = heuristicGive(board, pieces)
         if pos is not None:
@@ -178,7 +178,7 @@ class AggressiveHeuristicPlayer:
 
     def __str__(self) -> str:
         return "Aggressive Heuristic Player"
-    
+
     def give(self, board, pieces):
         pos = heuristicGive(board, pieces)
         if pos is not None:
@@ -200,7 +200,7 @@ class PacificHeuristicPlayer:
 
     def __str__(self) -> str:
         return "Pacific Heuristic Player"
-    
+
     def give(self, board, pieces):
         pos = heuristicGive(board, pieces)
         if pos is not None:
@@ -217,3 +217,17 @@ class PacificHeuristicPlayer:
         return randomPlace(board)
 
 
+class AggressivePlayer:
+    """player that plays aggressively"""
+
+    def __str__(self) -> str:
+        return "Aggressive Player"
+
+    def give(self, board, pieces):
+        return randomGive(pieces)
+
+    def place(self, board, pieces, piece):
+        pos = maximizeTensionPlace(board, piece)
+        if pos is not None:
+            return pos
+        return randomPlace(board)
