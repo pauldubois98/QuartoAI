@@ -141,3 +141,30 @@ def tournament(players, n_games):
         "n_games": n_games,
     }
     return tournament_results
+
+
+def plot_tournament(tournament_results, output_file=None):
+    """plot the results of a tournament"""
+    wins = tournament_results["wins"]
+    losts = tournament_results["losts"]
+    draws = tournament_results["draws"]
+    players = tournament_results["players"]
+    n_games = tournament_results["n_games"]
+    n_players = len(players)
+    plt.clf()
+    plt.imshow(wins-losts, cmap='bwr_r', vmin=-n_games, vmax=n_games)
+    for i in range(n_players):
+        for j in range(n_players):
+            plt.text(
+                j, i, f"{wins[i,j]}; {draws[i,j]} ; {losts[i,j]}", ha='center', va='center')
+    plt.title("Tournament results")
+    plt.yticks(np.arange(n_players), [player.__str__().replace(
+        "Player", "") for player in players])
+    plt.xticks(np.arange(n_players), [player.__str__().replace(
+        "Player", "") for player in players])
+    plt.xticks(rotation=45)
+    plt.colorbar()
+    if output_file is not None:
+        plt.savefig(output_file)
+    else:
+        plt.show()
