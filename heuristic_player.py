@@ -189,6 +189,22 @@ class HeuristicPlacePlayer:
         return randomPlace(board)
 
 
+class HeuristicGivePlayer:
+    """player that avoids losing when giving"""
+
+    def __str__(self) -> str:
+        return "Heuristic Give Player"
+
+    def give(self, board, pieces):
+        pos = heuristicGive(board, pieces)
+        if pos is not None:
+            return pos
+        return randomGive(pieces)
+
+    def place(self, board, pieces, piece):
+        return randomPlace(board)
+
+
 class AggressiveHeuristicPlayer:
     """player that tries to win when placing & avoid losing when giving, playing aggressively"""
 
