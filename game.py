@@ -157,13 +157,14 @@ def plot_tournament(tournament_results, output_file=None):
         for j in range(n_players):
             plt.text(
                 j, i, f"{wins[i,j]}; {draws[i,j]} ; {losts[i,j]}", ha='center', va='center')
-    plt.title("Tournament results")
+    plt.title("Tournament results (A wins; draws; B wins))")
     plt.yticks(np.arange(n_players), [player.__str__().replace(
         "Player", "") for player in players])
+    plt.ylabel("Player A (1st to place)")
     plt.xticks(np.arange(n_players), [player.__str__().replace(
         "Player", "") for player in players])
     plt.xticks(rotation=45)
-    plt.colorbar()
+    plt.xlabel('Player B (1st to "give"')
     if output_file is not None:
         plt.savefig(output_file)
     else:
