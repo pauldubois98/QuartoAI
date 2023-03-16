@@ -164,7 +164,7 @@ def plot_tournament(tournament_results, output_file=None):
     plt.xticks(np.arange(n_players), [player.__str__().replace(
         "Player", "") for player in players])
     plt.xticks(rotation=45)
-    plt.xlabel('Player B (1st to "give"')
+    plt.xlabel('Player B (1st to "give")')
     if output_file is not None:
         plt.savefig(output_file)
     else:
