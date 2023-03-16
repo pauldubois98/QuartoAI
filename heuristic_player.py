@@ -174,3 +174,22 @@ class AggressiveHeuristicPlayer:
         if pos is not None:
             return pos
         return randomPlace(board)
+
+
+class PacificHeuristicPlayer:
+    """player that tries to win when placing & avoid losing when giving, playing pacifically"""
+
+    def give(self, board, pieces):
+        pos = heuristicGive(board, pieces)
+        if pos is not None:
+            return pos
+        return randomGive(pieces)
+
+    def place(self, board, pieces, piece):
+        pos = heuristicPlace(board, piece)
+        if pos is not None:
+            return pos
+        pos = minimizeTensionPlace(board, piece)
+        if pos is not None:
+            return pos
+        return randomPlace(board)
