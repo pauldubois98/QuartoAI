@@ -3,14 +3,15 @@ from game import checkAlign
 from random_player import randomPlace, randomGive
 
 
-def tension(board):
+def calculate_tension(board):
     """compute the tension of the board"""
     # columns
     columns_sums = board.sum(dim=1)
     columns_full_pieces = columns_sums[0, :] == 3
     columns_same_shapes = torch.logical_or(
         columns_sums[1:, :] == 0, columns_sums[1:, :] == 3).any(dim=1)
-    columns_tension = torch.logical_and(columns_full_pieces, columns_same_shapes)
+    columns_tension = torch.logical_and(
+        columns_full_pieces, columns_same_shapes)
     # lines
     lines_sums = board.sum(dim=2)
     lines_full_pieces = lines_sums[0, :] == 3
@@ -22,19 +23,21 @@ def tension(board):
     diagonal_full_pieces = diagonal_sums[0] == 3
     diagonal_same_shapes = torch.logical_or(
         diagonal_sums[1:] == 0, diagonal_sums[1:] == 3).any()
-    diagonal_tension = torch.logical_and(diagonal_full_pieces, diagonal_same_shapes)
+    diagonal_tension = torch.logical_and(
+        diagonal_full_pieces, diagonal_same_shapes)
     # diagonal bis
     flipped_board = torch.flip(board, (1,))
     diagonal_bis_sums = flipped_board.diagonal(0, 1, 2).sum(dim=1)
     diagonal_bis_full_pieces = diagonal_bis_sums[0] == 3
     diagonal_bis_same_shapes = torch.logical_or(
         diagonal_sums[1:] == 0, diagonal_sums[1:] == 3).any()
-    diagonal_bis_tension = torch.logical_and(diagonal_bis_full_pieces, diagonal_bis_same_shapes)
+    diagonal_bis_tension = torch.logical_and(
+        diagonal_bis_full_pieces, diagonal_bis_same_shapes)
     # tension
     total_tension = lines_tension.sum().item() \
-    + columns_tension.sum().item() \
+        + columns_tension.sum().item() \
         + diagonal_tension.sum().item() \
-            + diagonal_bis_tension.sum().item()
+        + diagonal_bis_tension.sum().item()
     return total_tension
 
 
@@ -102,16 +105,19 @@ def heuristicGive(board, pieces):
     return None
 
 
-class HeuristicPlayer:
-    """player that tries to win when placing & avoid losing when giving"""
-    def give(self, board, pieces):
-        pos = heuristicGive(board, pieces)
-        if pos is None:
-            return randomGive(pieces)
-        return pos
-
-    def place(self, board, pieces, piece):
-        pos = heuristicPlace(board, piece)
-        if pos is None:
-            return randomPlace(board)
-        return pos
+def maximizeTensionPlace(board, piece):
+    """maximize the tension of the board"""
+    available_places = torch.where(board[0, :, :] == 0)
+    max_tension = 0
+    max_place = None
+    for indice in range(available_places[0].shape[0]):
+        test_place_i = available_places[0][indice]
+        test_place_j = available_places[1][indice]
+        test_board = board.clone()
+        test_board[0, test_place_i, test_place_j] = 1
+        test_board[1:, test_place_i, test_place_j] = piece
+        tension = calculate_tension(test_board)
+        if tension > max_tension:
+            max_tension = tension
+            max_place = (test_place_i, test_place_j)
+    return max_place
