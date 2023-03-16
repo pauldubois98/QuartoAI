@@ -121,3 +121,21 @@ def maximizeTensionPlace(board, piece):
             max_tension = tension
             max_place = (test_place_i, test_place_j)
     return max_place
+
+
+def minimizeTensionPlace(board, piece):
+    """minimize the tension of the board"""
+    available_places = torch.where(board[0, :, :] == 0)
+    min_tension = 100
+    min_place = None
+    for indice in range(available_places[0].shape[0]):
+        test_place_i = available_places[0][indice]
+        test_place_j = available_places[1][indice]
+        test_board = board.clone()
+        test_board[0, test_place_i, test_place_j] = 1
+        test_board[1:, test_place_i, test_place_j] = piece
+        tension = calculate_tension(test_board)
+        if tension < min_tension:
+            min_tension = tension
+            min_place = (test_place_i, test_place_j)
+    return min_place
