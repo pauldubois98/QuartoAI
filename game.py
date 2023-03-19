@@ -156,7 +156,7 @@ def plot_tournament(tournament_results, output_file=None):
     for i in range(n_players):
         for j in range(n_players):
             plt.text(
-                j, i, f"{wins[i,j]}; {draws[i,j]} ; {losts[i,j]}", ha='center', va='center')
+                j, i, f"{wins[i,j]}\n{draws[i,j]}\n{losts[i,j]}", ha='center', va='center')
     plt.title("Tournament results (A wins; draws; B wins))")
     plt.yticks(np.arange(n_players), [player.__str__().replace(
         "Player", "") for player in players])
